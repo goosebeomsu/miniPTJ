@@ -29,11 +29,7 @@
 	  body {
             padding-top : 50px;
         }
-        
-
     </style>
-    
-    
 
 
 <script type="text/javascript">
@@ -53,26 +49,30 @@ $(function(){
 	})
 });
 
+$(function(){
+	$('.caption h4').on("click", function(){
+
+		
+		self.location =	"/product/getProduct?prodNo="+ $(this).find('#prodNo').val();
+		
+	})
+});
 
 $(function(){
 	$( ".ct_list_pop td:nth-child(2)" ).css("color" , "#3187de");
 });
 
 $(function(){
-	$('.caption h4').on("click", function(){
+	$('.prod_name').on("click", function(){
 		
-		
-		//alert( $('.caption h4').text() );
-		//alert( $(this).find('#prodNo').val() );
-		//alert( $('#menu').val() );
-		
-		if($('#menu').val() =='manage'){
-			
 		self.location = "/product/updateProductView?prodNo="+ $(this).find('#prodNo').val();	
-		} else{
-		self.location =	"/product/getProduct?prodNo="+ $(this).find('#prodNo').val();
-		}
+		
 	})
+});
+
+$(function(){
+	$( '.caption h4' ).css("color" , "#3187de");
+	$( '.caption h4' ).css("text-decoration" , "underline");
 });
 
 $(function(){
@@ -84,17 +84,6 @@ $(function(){
 		fncGetList(1);
 	})
 });
-
-$(function(){
-	$( '.caption h4' ).css("color" , "#3187de");
-	$( '.caption h4' ).css("text-decoration" , "underline");
-});
-
-$(function(){
-	
-	
-});
-
 </script>
 </head>
 
@@ -140,13 +129,11 @@ $(function(){
 				  
 				</form>
 	    	</div>
-	    	
+	   
 		</div>
 	  <!--   //////////////////////////////////////////////////////--> 
-	  
-	    <!--  table Start /////////////////////////////////////-->
-			
-			<div class="row">
+	  <c:if test="${param.menu.equals('search') && (user.role.equals('admin')||user.role.equals('user'))}"> 
+	  	<div class="row">
      	<c:forEach var="product" items="${list}">
 				<c:set var="i" value="${ i+1 }" />
   <div class="col-sm-6 col-md-4">
@@ -164,40 +151,15 @@ $(function(){
         <br>
         <p>${product.price}원</p>
         <p>
-        <c:choose>
-				<c:when test="${empty product.proTranCode}">
+   <c:choose>
+   		<c:when test="${empty product.proTranCode}">
 					<td align="left">판매중</td>
 				</c:when>
-				<c:otherwise>
-					<c:choose>
-					<c:when test="${param.menu.equals('manage') && user.role.equals('admin')}">
-						<c:if test="${product.proTranCode.equals('100') }">
-							
-							<td align="left">구매완료
-							  <button class="tran"> 배송하기 </button>
-							 <!-- <span class="ex" style="display:none;">${product.prodNo}</span>
-							<span class="am" style="display:none;">${product.proTranCode}</span>-->
-							  <input type="hidden" id="prodNo2" name="prodNo" value="${product.prodNo}"/>							
-							 <input type="hidden" id="tranCode" name="tranCode" value="${product.proTranCode}"/>
-							 </td>
-						</c:if>
-						<c:if test="${product.proTranCode.equals('200') }">
-							<td align="left">배송중</td>
-						</c:if>
-						<c:if test="${product.proTranCode.equals('300') }">
-							<td align="left">배송완료</td>
-						</c:if>
-					</c:when>
-					<c:when test="${param.menu.equals('search') && user.role.equals('admin')}">
-						<td align="left">구매완료</td>
-					</c:when>
-					<c:otherwise>
-						<td align="left">재고없음</td>
-					</c:otherwise>
-					</c:choose>
-				</c:otherwise>
-			</c:choose>
-        
+		<c:otherwise>
+					<td align="left">재고없음</td>
+		</c:otherwise>
+   </c:choose>
+           
         </p>
        
       </div>
@@ -205,8 +167,71 @@ $(function(){
   </div>
 	</c:forEach>
 </div>
-			
+	  
+	  
+	  </c:if>
+	  
+	  
+	  <c:if test="${param.menu.equals('manage') && user.role.equals('admin')}">  
+	    <!--  table Start /////////////////////////////////////-->
+      <table class="table table-hover table-striped" >
+      
+        <thead>
+          <tr>
+            <th align="center">No</th>
+            <th align="left" >상품명</th>
+            <th align="left">가격</th>
+            <th align="left">등록일</th>
+            <th align="left">현재상태</th>
+          </tr>
+        </thead>
+       
+		<tbody>
+		
+		<c:forEach var="product" items="${list}">
+				<c:set var="i" value="${ i+1 }" />
 				
+				<tr class="ct_list_pop">
+			<td align="center">${ i }</td>
+			
+			
+			<td align="left" class="prod_name">
+			  <input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/>
+			 	${product.prodName}
+			 </td>
+			<td align="left">${product.price}</td>
+		
+			<td align="left">${product.regDate}</td>
+			
+			
+			 <c:if test="${empty product.proTranCode}">
+			 <td align="left">판매중</td>
+			 </c:if>
+			 <c:if test="${product.proTranCode.equals('100') }">
+			 <td align="left">구매완료
+					 <input type="hidden" id="prodNo2" name="prodNo" value="${product.prodNo}"/>							
+					<input type="hidden" id="tranCode" name="tranCode" value="${product.proTranCode}"/>
+						<button class="tran">
+						배송하기 </button>
+						</td>
+			 </c:if>
+			<c:if test="${product.proTranCode.equals('200') }">
+							<td align="left">배송중</td>
+						</c:if>
+						<c:if test="${product.proTranCode.equals('300') }">
+							<td align="left">배송완료</td>
+						</c:if>
+				</tr>
+				<tr>
+			
+				</tr>
+		
+				</c:forEach>
+   
+        </tbody>
+      
+      </table>
+      </c:if>
 	  <!--  table End /////////////////////////////////////-->
 	     <input type="hidden" id="currentPage" name="currentPage" value=""/>
 		   <input type="hidden" id="menu" name="menu" value="${param.menu}"/>
