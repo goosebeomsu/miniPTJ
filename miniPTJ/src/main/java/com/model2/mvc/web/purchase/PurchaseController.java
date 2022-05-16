@@ -152,6 +152,53 @@ public class PurchaseController {
 
 		return modelAndView;
 	}
+	
+	//일괄배송처리를 위한 컨트롤러
+	@RequestMapping(value="updateTranCodeAll")
+	public ModelAndView updateTranCodeAll(@RequestParam("prodNo") int[] prodNo, @RequestParam("tranCode") String[] tranCode)
+			throws Exception {
+
+		System.out.println("/updateTranCodeAll");
+		
+		////debug
+		for(int no: prodNo) {
+			System.out.println(no);
+		}
+		
+		for(String no: tranCode) {
+			System.out.println(no);
+		}
+		
+		////
+		for(int i=0; i<prodNo.length; i++) {
+			Purchase purchase = purchaseService.getPurchase(prodNo[i]);
+			System.out.println("tranCode: "+tranCode);
+			System.out.println("purchase: "+purchase);
+			
+			if (tranCode[i].equals("100")) {
+				purchase.setTranCode("200");
+				
+			} else if (tranCode[i].equals("200")) {
+				purchase.setTranCode("300");
+			}
+			
+			purchaseService.updateTranCode(purchase);
+			
+		}
+		
+
+		
+		
+		Product product = productService.getProduct(prodNo[0]);
+		System.out.println("product: "+product);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("product", product);
+		modelAndView.setViewName("redirect:/product/listProduct?menu=manage");
+
+		return modelAndView;
+	}
+
 
 	@RequestMapping(value="listPurchase")
 	public ModelAndView listPurchase(@ModelAttribute("search") Search search, HttpSession session,

@@ -41,6 +41,11 @@ function fncGetList(currentPage) {
 	$('form').attr('method', 'POST').attr('action', '/product/listProduct?&menu='+$('#menu').val()).submit();
 }
 
+function fncUpdateTranCodeAll() {
+	document.detailForm.action='/purchase/updateTranCodeAll';
+   	document.detailForm.submit();
+}
+
 $(function(){
 	$("button.btn.btn-default").on("click", function(){
 		//alert(  $( '.ct_btn01:contains("검색")' ).html() );
@@ -331,7 +336,15 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 	     <input type="hidden" id="currentPage" name="currentPage" value=""/>
 		   <input type="hidden" id="menu" name="menu" value="${param.menu}"/>
 		 
-	    
+	    <script type="text/javascript">
+	
+		
+	 	$( "button:contains('선택상품배송')" ).on("click" , function() {
+			
+	 		$(self.location).attr("href","javascript:fncUpdateTranCodeAll();");
+		}); 
+	 	
+	 	</script>  
 	
 	</div>
 	
