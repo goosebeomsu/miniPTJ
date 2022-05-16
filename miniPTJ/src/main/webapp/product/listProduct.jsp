@@ -2,7 +2,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <html>
 <head>
 <title>상품 목록조회</title>
@@ -58,9 +57,7 @@ $(function(){
 	})
 });
 
-$(function(){
-	$( ".ct_list_pop td:nth-child(2)" ).css("color" , "#3187de");
-});
+
 
 $(function(){
 	$('.prod_name').on("click", function(){
@@ -71,8 +68,84 @@ $(function(){
 });
 
 $(function(){
+		
+	$(  "td:nth-child(7) > i" ).on("click" , function() {
+
+		var prodNo = $(this).next().val();
+	
+		$.ajax( 
+				{
+					url : "/product/json/getProduct/"+prodNo ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+						
+						console.log(JSONData);
+						console.log(status);
+						
+						var displayValue = "<h6>"
+													+"상품명:"+JSONData.prodName+"<br/>"
+													+"상품상세정보:"+JSONData.prodDetail+"<br/>"
+													+"가격:"+JSONData.price+"<br/>"
+													+"</h6>";
+						$("h6").remove();
+						$( "#"+prodNo+"" ).html(displayValue);
+					}
+			});
+			////////////////////////////////////////////////////////////////////////////////////////////
+		
+});
+	
+	
+	
+	
+	
+	
 	$( '.caption h4' ).css("color" , "#3187de");
 	$( '.caption h4' ).css("text-decoration" , "underline");
+	$( ".ct_list_pop td:nth-child(2)" ).css("color" , "#3187de");
+});
+///////////////일괄처리
+$(function(){
+	$('#cb1').on("click", function(){
+		
+	
+		
+		if($('#cb1').prop('checked')){
+			
+		$('.cb2').prop('checked', true);
+			
+		} else{
+			
+		$('.cb2').prop('checked', false);
+		
+		}
+		
+	})
+	
+	$('.cb2').on("click", function(){
+		
+	
+		
+		if($("input[name='check']:checked").length == 9){
+			
+		$('#cb1').prop('checked', true);
+			
+		} else{
+			
+		$('#cb1').prop('checked', false);
+		
+		}
+		
+	})
+	
+	
+	
+	
 });
 
 $(function(){
@@ -179,10 +252,14 @@ $(function(){
         <thead>
           <tr>
             <th align="center">No</th>
+            <th align="center">
+             <input type="checkbox" id="cb1">
+            </th>
             <th align="left" >상품명</th>
             <th align="left">가격</th>
             <th align="left">등록일</th>
             <th align="left">현재상태</th>
+            <th align="left">간략정보</th>
           </tr>
         </thead>
        
@@ -194,11 +271,13 @@ $(function(){
 				<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			
+			<td align="left"> <input  type="checkbox" class="cb2" name="check" ></td>
 			
 			<td align="left" class="prod_name">
 			  <input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/>
 			 	${product.prodName}
 			 </td>
+			 
 			<td align="left">${product.price}</td>
 		
 			<td align="left">${product.regDate}</td>
@@ -221,6 +300,10 @@ $(function(){
 						<c:if test="${product.proTranCode.equals('300') }">
 							<td align="left">배송완료</td>
 						</c:if>
+			<td align="left">
+							<i class="glyphicon glyphicon-ok" id= "${product.prodNo}"></i>
+							<input type="hidden"  value="${product.prodNo}"/>
+							</td>
 				</tr>
 				<tr>
 			
