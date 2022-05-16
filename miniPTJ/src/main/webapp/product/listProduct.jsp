@@ -109,7 +109,7 @@ $(function(){
 	$( '.caption h4' ).css("text-decoration" , "underline");
 	$( ".ct_list_pop td:nth-child(2)" ).css("color" , "#3187de");
 });
-///////////////일괄처리
+///////////////일괄체크
 $(function(){
 	$('#cb1').on("click", function(){
 		
@@ -147,7 +147,7 @@ $(function(){
 	
 	
 });
-
+//////트랜코드 업데이트
 $(function(){
 	$('.tran').on("click", function(){
 	
@@ -157,6 +157,13 @@ $(function(){
 		fncGetList(1);
 	})
 });
+
+
+$( "button:contains('선택상품배송')" ).on("click" , function() {
+	//Debug..
+		$(self.location).attr("href","javascript:fncAddPurchaseViewByWishlist();");
+}); 
+
 </script>
 </head>
 
@@ -246,6 +253,8 @@ $(function(){
 	  
 	  
 	  <c:if test="${param.menu.equals('manage') && user.role.equals('admin')}">  
+	  
+	  <form name="detailForm" method="post">
 	    <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
       
@@ -314,6 +323,9 @@ $(function(){
         </tbody>
       
       </table>
+      
+      <button type="button" class="btn btn-primary">선택상품배송</button>
+	  </form>
       </c:if>
 	  <!--  table End /////////////////////////////////////-->
 	     <input type="hidden" id="currentPage" name="currentPage" value=""/>
