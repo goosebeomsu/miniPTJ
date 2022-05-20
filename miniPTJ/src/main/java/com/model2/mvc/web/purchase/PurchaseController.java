@@ -143,11 +143,11 @@ public class PurchaseController {
 		purchaseService.updateTranCode(purchase);
 		
 		
-		Product product = productService.getProduct(Integer.parseInt(prodNo));
-		System.out.println("product: "+product);
+		//Product product = productService.getProduct(Integer.parseInt(prodNo));
+		//System.out.println("product: "+product);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("product", product);
+		//modelAndView.addObject("product", product);
 		modelAndView.setViewName("redirect:/product/listProduct?menu=manage");
 
 		return modelAndView;
@@ -189,11 +189,11 @@ public class PurchaseController {
 
 		
 		
-		Product product = productService.getProduct(prodNo[0]);
-		System.out.println("product: "+product);
+//		Product product = productService.getProduct(prodNo[0]);
+//		System.out.println("product: "+product);
+//		modelAndView.addObject("product", product);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("product", product);
 		modelAndView.setViewName("redirect:/product/listProduct?menu=manage");
 
 		return modelAndView;

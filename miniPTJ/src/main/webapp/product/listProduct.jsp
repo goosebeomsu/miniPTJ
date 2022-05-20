@@ -38,12 +38,13 @@ function fncGetList(currentPage) {
    //	document.detailForm.submit();	
    console.log(currentPage);
 	//console.log($(#menu).val());
-	$('form').attr('method', 'POST').attr('action', '/product/listProduct?&menu='+$('#menu').val()).submit();
+	$('.form-inline').attr('method', 'POST').attr('action', '/product/listProduct?&menu='+$('#menu').val()).submit();
 }
 
 function fncUpdateTranCodeAll() {
-	document.detailForm.action='/purchase/updateTranCodeAll';
-   	document.detailForm.submit();
+	//document.detailForm.action='/purchase/updateTranCodeAll';
+   	//document.detailForm.submit();
+	$('.form-check').attr('method', 'POST').attr('action', '/purchase/updateTranCodeAll').submit();
 }
 
 $(function(){
@@ -217,6 +218,8 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 	   
 		</div>
 	  <!--   //////////////////////////////////////////////////////--> 
+	<form class="form-check"name="detailForm">  
+	
 	  <c:if test="${param.menu.equals('search') && (user.role.equals('admin')||user.role.equals('user'))}"> 
 	  	<div class="row">
      	<c:forEach var="product" items="${list}">
@@ -256,10 +259,11 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 	  
 	  </c:if>
 	  
+		
 	  
 	  <c:if test="${param.menu.equals('manage') && user.role.equals('admin')}">  
 	  
-	  <form name="detailForm" method="post">
+	 
 	    <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
       
@@ -278,7 +282,6 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
         </thead>
        
 		<tbody>
-		
 		<c:forEach var="product" items="${list}">
 				<c:set var="i" value="${ i+1 }" />
 				
@@ -330,16 +333,19 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
       </table>
       
       <button type="button" class="btn btn-primary">선택상품배송</button>
-	  </form>
+	 
       </c:if>
+      </form>
 	  <!--  table End /////////////////////////////////////-->
 	     <input type="hidden" id="currentPage" name="currentPage" value=""/>
 		   <input type="hidden" id="menu" name="menu" value="${param.menu}"/>
 		 
-	    <script type="text/javascript">
+
+     
+	   <script type="text/javascript">
 	
 		
-	 	$( "button:contains('선택상품배송')" ).on("click" , function() {
+	    $( "button:contains('선택상품배송')" ).on("click" , function() {
 			
 	 		$(self.location).attr("href","javascript:fncUpdateTranCodeAll();");
 		}); 
@@ -347,7 +353,6 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 	 	</script>  
 	
 	</div>
-	
 	<jsp:include page="../common/pageNavigator_new.jsp"/>
 	
 
