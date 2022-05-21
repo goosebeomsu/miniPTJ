@@ -346,7 +346,7 @@ $(function(){
 	
 		
 	    $( "button:contains('선택상품배송')" ).on("click" , function() {
-			
+	    	
 	 		$(self.location).attr("href","javascript:fncUpdateTranCodeAll();");
 		}); 
 	 	
