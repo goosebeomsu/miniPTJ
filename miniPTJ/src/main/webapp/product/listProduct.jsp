@@ -68,7 +68,8 @@ $(function(){
 $(function(){
 	$('.prod_name').on("click", function(){
 		
-		self.location = "/product/updateProductView?prodNo="+ $(this).find('#prodNo').val();	
+		//alert($(this).find('#prodNo').data('value'));
+		self.location = "/product/updateProductView?prodNo="+ $(this).find('#prodNo').text();	
 		
 	})
 });
@@ -165,10 +166,7 @@ $(function(){
 });
 
 
-$( "button:contains('선택상품배송')" ).on("click" , function() {
-	//Debug..
-		$(self.location).attr("href","javascript:fncAddPurchaseViewByWishlist();");
-}); 
+
 
 </script>
 </head>
@@ -218,7 +216,7 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 	   
 		</div>
 	  <!--   //////////////////////////////////////////////////////--> 
-	<form class="form-check"name="detailForm">  
+	
 	
 	  <c:if test="${param.menu.equals('search') && (user.role.equals('admin')||user.role.equals('user'))}"> 
 	  	<div class="row">
@@ -260,7 +258,8 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 	  </c:if>
 	  
 		
-	  
+	
+			  <form class="form-check"name="detailForm">  
 	  <c:if test="${param.menu.equals('manage') && user.role.equals('admin')}">  
 	  
 	 
@@ -288,10 +287,12 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 				<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			
-			<td align="left"> <input  type="checkbox" class="cb2" name="check" ></td>
+			<td align="left"> <input  type="checkbox" class="cb2" name="prodNo" value="${product.prodNo}" 
+			    name="tranCode"   value="${product.proTranCode}"
+					></td>
 			
 			<td align="left" class="prod_name">
-			  <input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/>
+			   <span  id="prodNo"  style="display:none" >${product.prodNo}</span>
 			 	${product.prodName}
 			 </td>
 			 
@@ -299,13 +300,12 @@ $( "button:contains('선택상품배송')" ).on("click" , function() {
 		
 			<td align="left">${product.regDate}</td>
 			
-			
 			 <c:if test="${empty product.proTranCode}">
 			 <td align="left">판매중</td>
 			 </c:if>
 			 <c:if test="${product.proTranCode.equals('100') }">
 			 <td align="left">구매완료
-					 <input type="hidden" id="prodNo2" name="prodNo" value="${product.prodNo}"/>							
+								
 					<input type="hidden" id="tranCode" name="tranCode" value="${product.proTranCode}"/>
 						<button class="tran">
 						배송하기 </button>
