@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  <!-- iamport.payment.js -->
+ 
 
 <style>
        body > div.container{
@@ -29,6 +32,7 @@
             margin-top: 60px;
         }
     </style>
+    
 
 
 	<script type="text/javascript">
@@ -39,12 +43,19 @@
 		 })
 	 })
 	 
+	 
 	$(function(){
+
+		
 	 	$("button.btn.btn-primary").on("click", function(){
-	 	//alert($('#prodNo').val());
+	 		
+	 		alert($('#prodNo').val());
 		 	self.location = "/purchase/addPurchaseView?prodNo="+$('#prodNo').val();
-		 })
+	 })
 	})
+	
+
+
 	 
 	 
 	
@@ -72,7 +83,7 @@
 	
 	<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상 품 명</strong></div>
-			<div class="col-xs-8 col-md-4">${product.prodName}</div>
+			<div class="col-xs-4 col-md-2">${product.prodName}</div>
 	</div>
 	
 	<hr/>
@@ -102,7 +113,7 @@
 	
 	<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>가격</strong></div>
-			<div class="col-xs-8 col-md-4">${product.price}</div>
+			<div class="col-xs-4 col-md-2">${product.price}</div>
 	</div>
 	
 	<hr/>
@@ -117,6 +128,7 @@
 	
 	<div class="row">
 	  		<div class="col-md-12 text-center ">
+	  			
 	  			<button type="button" class="btn btn-primary">구매</button>
 				<a class="btn btn-primary btn" href="#" role="button">이전</a>
 	  		</div>

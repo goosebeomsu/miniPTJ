@@ -95,11 +95,13 @@ public class PurchaseController {
 
 	@RequestMapping(value="addPurchase")
 	public ModelAndView addPurchase(@RequestParam("prodNo") String prodNo, @RequestParam("buyerId") String buyerId,
+										@RequestParam("imp") String imp,
 			@ModelAttribute("purchase") Purchase purchase) throws Exception {
 
 		System.out.println("/addPurchase.do");
 		System.out.println("purchase:" + purchase);
-
+		System.out.println("imp:" + imp);
+		
 		System.out.println("prodNo:" + prodNo);
 		System.out.println("buyerId:" + buyerId);
 
@@ -123,10 +125,11 @@ public class PurchaseController {
 	}
 
 	@RequestMapping(value="updateTranCode")
-	public ModelAndView updateTranCode(@RequestParam("prodNo") String prodNo, @RequestParam("tranCode") String tranCode)
-			throws Exception {
+	public ModelAndView updateTranCode(@RequestParam("prodNo") String prodNo,
+										@RequestParam("tranCode") String tranCode) throws Exception {
 
 		System.out.println("/updateTranCode.do");
+		
 
 		Purchase purchase = purchaseService.getPurchase(Integer.parseInt(prodNo));
 		

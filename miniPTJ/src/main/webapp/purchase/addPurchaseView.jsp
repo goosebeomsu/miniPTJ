@@ -35,6 +35,8 @@
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+
 <style>
        body > div.container{
         	border: 3px solid #D6CDB7;
@@ -51,15 +53,40 @@ function fncAddPurchase(){
 
 	alert($("input[name='postcode']").val());
 	
-	var value = $("input[name='postcode']").val() + " " +  $("input[name='address']").val() + " " 
+	var value = $("input[name='address']").val() + " " 
 				+  $("input[name='detailAddress']").val() + " " +  $("input[name='extraAddress']").val();
 				
-	$("input[name='divyAddr']").val(value);
+
 	
 	alert(value);
 
 	
-	$('form').attr('method', 'POST').attr('action', '/purchase/addPurchase').submit();
+	/*$('form').attr('method', 'POST').attr('action', '/purchase/addPurchase').submit();*/
+	
+	 IMP.request_pay({
+	    	pg : "html5_inicis", 
+	        pay_method : 'card', 
+	        merchant_uid : '9001',//주문번호
+	        name : $(".prodName").text(), 
+	        amount : $(".price").text(),
+	        buyer_email : 'captain9697@naver.com',
+	        buyer_name : $("#receiverName").val(),
+	        buyer_tel : $("#receiverPhone").val(),
+	        buyer_addr : value,
+	        m_redirect_url : '01181'
+	    }, function(rsp) {
+	        if ( rsp.success ) {
+	        	
+	        	
+	        	
+	        	$('form').attr('method', 'POST').attr('action', '/purchase/addPurchase?&imp='+rsp.imp_uid).submit()
+	        	
+	            
+	        } else {
+	        	alert("실패.. 코드: "+rsp.error_code+" / 메시지: "+rsp.error_msg);
+	            
+	        }
+	    });
 }
 
 $(function() {
@@ -72,6 +99,9 @@ $(function() {
 });
 
  $(function(){
+	 
+	 IMP.init("imp88340030");
+	 
 	 $("button.btn.btn-primary").on("click", function(){
 		// alert( $("button.btn.btn-primary").text());
 		 fncAddPurchase();
@@ -158,7 +188,7 @@ $(function() {
 
 <div class="form-group">
  <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
-	 <div class="col-sm-4"> ${product.prodName} </div>
+	 <div class="prodName"> ${product.prodName} </div>
 </div>
 
 <div class="form-group">
@@ -173,12 +203,12 @@ $(function() {
 
 <div class="form-group">
  <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
-	 <div class="col-sm-4"> ${product.price} </div>
+	 <div class="price"> ${product.price} </div>
 </div>
 
 <div class="form-group">
  <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">구매자아이디</label>
-	 <div class="col-sm-4"> ${user.userId} </div>
+	 <div class="userId"> ${user.userId} </div>
 </div>
 
 
@@ -216,8 +246,8 @@ $(function() {
 		 <input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호">
 		 <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 	     <input type="text" id="sample6_address"  name="address" placeholder="주소"><br>
-		 <input type="text" id="sample6_detailAddress"  name="detailAddress" placeholder="상세주소">
 	     <input type="text" id="sample6_extraAddress"  name="extraAddress" placeholder="참고항목">
+		 <input type="text" id="sample6_detailAddress"  name="detailAddress" placeholder="상세주소">
 		   </div>
 </div>
 
