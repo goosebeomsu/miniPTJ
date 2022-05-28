@@ -1,14 +1,10 @@
 package com.model2.mvc.service.purchase.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +12,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
-import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
-import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.purchase.PurchaseDao;
-import com.model2.mvc.service.user.UserService;
-import com.model2.mvc.service.user.impl.UserServiceImpl;
+
 
 @Repository("purchaseDaoImpl")
 public class PurchaseDaoImpl implements PurchaseDao{

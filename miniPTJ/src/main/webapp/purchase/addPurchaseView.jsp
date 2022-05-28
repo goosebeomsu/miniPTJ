@@ -55,18 +55,15 @@ function fncAddPurchase(){
 	
 	var value = $("input[name='address']").val() + " " 
 				+  $("input[name='detailAddress']").val() + " " +  $("input[name='extraAddress']").val();
-				
-
-	
+					
 	alert(value);
 
-	
-	/*$('form').attr('method', 'POST').attr('action', '/purchase/addPurchase').submit();*/
+
 	
 	 IMP.request_pay({
 	    	pg : "html5_inicis", 
 	        pay_method : 'card', 
-	        merchant_uid : '9001',//주문번호
+	        merchant_uid : '9003',//주문번호
 	        name : $(".prodName").text(), 
 	        amount : $(".price").text(),
 	        buyer_email : 'captain9697@naver.com',
@@ -77,7 +74,8 @@ function fncAddPurchase(){
 	    }, function(rsp) {
 	        if ( rsp.success ) {
 	        	
-	        	
+	        	alert(rsp.pg);
+	        	alert(rsp.buyer_addr);
 	        	
 	        	$('form').attr('method', 'POST').attr('action', '/purchase/addPurchase?&imp='+rsp.imp_uid).submit()
 	        	
@@ -86,7 +84,52 @@ function fncAddPurchase(){
 	        	alert("실패.. 코드: "+rsp.error_code+" / 메시지: "+rsp.error_msg);
 	            
 	        }
-	    });
+	    });///IMP.request_pay end
+	
+	
+}
+
+function fncAddPurchase(){
+	
+	var value ="";
+	
+
+	alert($("input[name='postcode']").val());
+	
+	var value = $("input[name='address']").val() + " " 
+				+  $("input[name='detailAddress']").val() + " " +  $("input[name='extraAddress']").val();
+					
+	alert(value);
+
+
+	
+	 IMP.request_pay({
+	    	pg : "html5_inicis", 
+	        pay_method : 'card', 
+	        merchant_uid : '9003',//주문번호
+	        name : $(".prodName").text(), 
+	        amount : $(".price").text(),
+	        buyer_email : 'captain9697@naver.com',
+	        buyer_name : $("#receiverName").val(),
+	        buyer_tel : $("#receiverPhone").val(),
+	        buyer_addr : value,
+	        m_redirect_url : '01181'
+	    }, function(rsp) {
+	        if ( rsp.success ) {
+	        	
+	        	alert(rsp.pg);
+	        	alert(rsp.buyer_addr);
+	        	
+	        	$('form').attr('method', 'POST').attr('action', '/purchase/addPurchase?&imp='+rsp.imp_uid).submit()
+	        	
+	            
+	        } else {
+	        	alert("실패.. 코드: "+rsp.error_code+" / 메시지: "+rsp.error_msg);
+	            
+	        }
+	    });///IMP.request_pay end
+	
+	
 }
 
 $(function() {
@@ -105,6 +148,11 @@ $(function() {
 	 $("button.btn.btn-primary").on("click", function(){
 		// alert( $("button.btn.btn-primary").text());
 		 fncAddPurchase();
+	 })
+	 
+	  $("button.kakao").on("click", function(){
+		// alert( $("button.btn.btn-primary").text());
+		 fncAddPurchaseKakao();
 	 })
  })
  
@@ -246,8 +294,8 @@ $(function() {
 		 <input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호">
 		 <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 	     <input type="text" id="sample6_address"  name="address" placeholder="주소"><br>
-	     <input type="text" id="sample6_extraAddress"  name="extraAddress" placeholder="참고항목">
 		 <input type="text" id="sample6_detailAddress"  name="detailAddress" placeholder="상세주소">
+	     <input type="text" id="sample6_extraAddress"  name="extraAddress" placeholder="참고항목">
 		   </div>
 </div>
 
@@ -268,7 +316,8 @@ $(function() {
 
 <div class="form-group">
 	<div class="col-sm-offset-4  col-sm-4 text-center">
-    <button type="button" class="btn btn-primary"  >구&nbsp;매</button>
+    <button type="button" class="btn btn-primary"  >이니시스</button>
+    <button type="button" class="kakao"  >카카오페이</button>
   <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
  </div>
  </div>
